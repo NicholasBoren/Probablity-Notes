@@ -1,0 +1,427 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[dutch]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{ntheorem}
+\usepackage{titlesec}
+
+% figure support
+%----------------------------%
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+	\def\svgwidth{\columnwidth}
+	\import{./figures/}{#1.pdf_tex}
+}
+
+\pdfsuppresswarningpagegroup=1
+
+%----------Theorems----------%
+
+\newcounter{counter}
+\numberwithin{counter}{subsection}
+
+\theoremstyle{break}
+\theoremindent20pt 
+\theorembodyfont{\normalfont}
+\theoremheaderfont{\normalfont\bfseries\hspace{-\theoremindent}}
+\newtheorem{definition}{Definition}
+\newtheorem{exmp}[counter]{Example}
+\newtheorem{lemma}[counter]{Lemma}
+\newtheorem*{solution}{Solution}
+\newtheorem{exe}[counter]{Exercise}
+\newtheorem{theorem}[counter]{Theorem}
+%------Miscellaneous---------%
+
+\titleformat{\section}[block]{\Large\bfseries\filcenter\underline}{}{1em}{}
+\newcommand{\sectionbreak}{\clearpage}
+
+\begin{document}
+	\section{Introduction}%
+    	Probability is used to measure how likely an uncertain event is to occur. The core of probability is to provide measuring tools.\\ 
+		As an example:
+		\begin{itemize}
+			\item Roll of two dice, lottery, flip of a coin, etc
+		\end{itemize}
+	\section{Counting}%
+		\begin{definition}[n-tuple]
+			An n-tuple is an order set of n-elements taken from a set.
+		\end{definition}
+
+		\begin{exmp}
+			Colors on a stripped flag from top to bottom
+			\begin{itemize}
+				\item (blue, white, red) (Columbia)
+				\item ordered because (blue, white, red) notequal (red,white, blue) (U.S)	
+			\end{itemize}	
+		\end{exmp}
+
+		\begin{lemma}
+			For 2-tuple $(a,b)$. Suppose $a \in A$ with $n_1$ elements, and $b \in B$ with $n_2$ elements, then there are: $n_1 * n_2$ possibilities for the tuple(a,b).
+		\end{lemma}
+
+		\begin{exmp}
+			A team of one boy and one girl is to made from a group of 5 girls and 2 boys. How many different teams are there
+		\end{exmp}
+
+		\begin{solution}
+			\begin{align*}
+				G_1 B_1 && G_2 B_1 && G_3 B_1 && G_4 B_1 && G_5 B_1 \\
+				G_1 B_2 && G_2 B_2 && G_3 B_2 && G_4 B_2 && G_5 B_2\\
+			\end{align*}
+						\[ 5 * 2 = 10 .\] 	
+		\end{solution}
+
+		\begin{lemma}
+			Suppose an experiment consists $r$ different outcomes, with the i-th outcome having $n_i$ possibilities, then together there are: \[
+				n_1 \times n_2 \times \ldots \times n_r = \prod_{i=1}^{r} n_i 
+			.\] 
+
+			Possibilities for the experiment.
+		\end{lemma}
+
+		\begin{exe}
+			How many different licence plates if we have 3 letters followed by 3 numbers, how many unique license plates are there
+			\begin{solution}
+				$26 \times 26 \times 26 \times 10 \times 10 \times 10 = 17,576,000$
+			\end{solution}
+		\end{exe}
+
+		\begin{definition}[Permutations]
+			A permeation of $\{1, \ldots, k\} $ is a k-tuple such that numbers cannot repeat
+			\begin{exmp}
+				\begin{itemize}
+					\item How many 3-tuples made of letters a, b, c?
+					\item $3^3$ as seen before
+					\item How many 3-tuples made of letters a,b,c with no repletion 
+					\item $3 \times 2 \times 1 = 3! = 6$
+				\end{itemize}
+			\end{exmp}
+
+			\begin{itemize}
+				\item Each of these arrangements are called a permutation 
+					\item The order matters!
+				\begin{center}
+				\fbox{$n! = n \times (n - 1) \times \ldots \times 2 \times 1$}\end{center}
+						\item We define $0! = 1$
+			\end{itemize}
+		\end{definition}
+
+		\begin{exmp}
+			How many 3-tuples without lepton are there, made of the letters: a, b, c, d, e, f , g? 
+			\begin{solution}
+				$7 \times 6 \times  5 = \frac{7!}{(7-3)!} = (7)_3$
+			\end{solution}
+		\end{exmp}
+
+		\begin{definition}
+			If there are k slots for $1,2,\ldots,n$ then the number of arrangements is \textbf{the number of k-tuples that can be selected from $\{1,2,\ldots,n\} $ without repeating elements and is given by}:
+		\[ \fbox{$(n)_k := n \times (n-1) (n - 2) \times \ldots \times (n - k + 1) = \frac{n!}{(n-k)!}$}.\]
+		\end{definition}
+
+	\section{Sets}%
+		\begin{definition}
+			A set is an unordered collection of different elements.
+		\end{definition}
+	
+		Quick note, is that we use "()" for tuples, and "$\{\}$" for sets. 
+
+		\begin{exmp}
+			\begin{itemize}
+				\item Colors on a painting
+				\item Unordered because a painting does not have any order
+				\item different because will NOT count the same color twice
+			\end{itemize}
+		\end{exmp}
+
+		\begin{exmp}
+			How many subsets of 3 elements are there, made of letters a,b,c,d,e,f,g?
+			\begin{itemize}
+				\item For each subset of size 3, we counted $3! = 6$ permutations 
+				\item We counted $(7)_3$ possible 3-tuples with different elements (arrangements)
+				\item Therefore, we divide the number of arrangements by 6: \[
+						\frac{(7)_3}{3!} = \frac{7!}{4! 3!} = \frac{210}{3} = 35
+				.\] 
+			\end{itemize}
+		\end{exmp}
+
+		When order matters, there is $k!$ different orderings of the k items selected.
+		 \begin{itemize}
+			 \item If we have n items and want select k of them, \#(combinations) \[
+					  = \frac{n \times (n-1) \times \ldots \times (n - k + 1)}{k!} = \frac{n!}{(n-k)!k!} 
+			 .\] 
+		\end{itemize}
+
+		\begin{definition}[Choose Operator]
+			Define the choose operator as: \[
+				\begin{pmatrix} n \\ k\end{pmatrix} = \frac{n!}{(n-k)!k!}, ~ 0 \le k \le n 
+			.\] 
+
+			This operator is pronounced as "N, choose K" which is the number of ways to pick k objects from a set of n dissidents objects.
+		\end{definition}
+
+		\begin{exe}
+			How many handshakes take place between a group of 6 people if everyone needed to shake hands with everyone else.\\
+			Same question: how many combinations of 2 numbers among $\{1,2,3,4,5,6\}$
+			\begin{solution}
+				$$\begin{pmatrix} 6 \\ 2\end{pmatrix} = \frac{6!}{4!2!} = \frac{6 * 5* 4 * 3 * 2 * 1}{4 * 3 * 2 * 1 * 2} = \frac{6 * 5}{2 * 1} = 15$$
+			\end{solution}
+		\end{exe}
+
+		\begin{exe}
+			5 women and 4 men take an exam. We rank them from top to bottom, according to their performance. There are no ties.
+			\begin{itemize}
+				\item 1.) How many possible rankings.
+				\item 2.) What if we rank men and women separately?
+				\item 3.) As in (ii), but Julie has the third place in women's rankings. 
+			\end{itemize}
+			\smallskip
+
+			(i) A ranking is just another name for a permeation of nine people. The answer is \fbox{$9!$}\\
+			(ii) There are $5!$ permutations for women and 4! Permutations for men. Since any ranking for men can be "tupled" with any ranking of men, by the counting principle, the total number is:
+			\fbox{$5!4!$}\\
+			(iii) We exclude Julie from consideration, because her place is already reserve red. There are four women left now, so the perumations is 4!, which is the same as the men so we have the final answer: \fbox{$4!$}
+		\end{exe}
+
+		\subsection{Properties of choose numbers}%
+			
+			\textbf{Symmetry}: 
+			$\begin{pmatrix} n \\ k\end{pmatrix} = \begin{pmatrix} n \\ n - k\end{pmatrix}$
+
+			\begin{itemize}
+				\item For every subset of 2 elements $\{1,2,\ldots,8\}$, there is a subset of 6 elements: its complement:
+				\item For example, \[
+						\{3, 5\} \leftrightarrow \{1,2,4,6,7,8\}  
+				.\] 
+				\item This is a one-to-one correspondence. So there are equally many subsets of two elements and subsets of six elements. Hence, $\begin{pmatrix} 8 \\ 2 \end{pmatrix} = \begin{pmatrix} 8 \\ 6 \end{pmatrix} $
+			\end{itemize}
+
+			\begin{exmp}
+				Among 4 married couples, we want to select a group of 3 people that is not allowed to contain a married couple. How many choices?
+
+				\begin{solution}
+					Number of choices if the group can contain married couples(s): \[
+					N_1 = \begin{pmatrix} 8 \\ 3 \end{pmatrix} = \frac{8!}{3! * 5!} = 56
+					.\] 
+
+					Number of choices if the group contains at least one married couple(s)? Then it can only contain one couple. \[
+					N_2 = \begin{pmatrix} 4 \\ 1 \end{pmatrix} \times \begin{pmatrix} 6 \\ 1 \end{pmatrix} = 24
+					.\] 
+
+					We can arrive at this equation because out of the 4 couples, we will only being choosing one group group of married couples, then we are left with 6 people and will be choosing 1 from that group.\\
+					The number of choices that the group does not have a couple: \[
+					N_1 - N_2 = 32 
+					.\] 
+
+					Alternatively: there are $8 \times 6 \times 4$ ways of permuting 3 people where no married couple is contained. However, the order plays a role in this calculation, which we do not want. Therefore, there are $\frac{8 * 6 * 4}{3!}= 32$.\\
+				\end{solution}
+			\end{exmp}
+
+				\subsubsection{Reduction Property}%
+					The reduction property is defined as:
+				\[
+				\begin{pmatrix} n \\ k \end{pmatrix} = \begin{pmatrix} n - 1 \\ k \end{pmatrix} + \begin{pmatrix} n - 1 \\ k -1 \end{pmatrix} 
+				.\] 
+
+				\begin{itemize}
+					\item Consider counting subsets $E \subset \{1,2,3,4,5\} $ of size 2. There are two possibilities:
+						\begin{itemize}
+							\item $5 \in E.$ Then E  \ (take away) {5} is one-element subset of $\{1,2,3,4\} $; There are $\begin{pmatrix} 4 \\ 1 \end{pmatrix} $ such subsets. 
+							\item $5 \not\in E$. Then E is a two-element subset of $\{1,2,3,4\} $ There are $\begin{pmatrix} 4 \\ 2 \end{pmatrix} $ sucgh subsets.\\ 
+						\end{itemize}
+				\end{itemize}
+
+				Hence, adding the two cases we get: $\begin{pmatrix} 5 \\ 2 \end{pmatrix}$ 
+
+				\section{Binomial Theorem}%
+				
+				First we can Note: \[
+					(x+y)^2 = x^2 + 2xy + y^2
+				,\] \[
+				(x + y)^3 = x^3 + 3x^2y + y^3
+				.\]  
+
+				\begin{itemize}
+					\item Coefficients are taken from the corresponding lines in Yang Hui's triangle
+					\item Why? Since $(x+y)^3=(x+y)(x+y)(x+y)$, the coefficients before $x^2y$ is just the number of ways of getting one y and hence two X's. For example: $\begin{pmatrix} 3 \\ 2 \end{pmatrix} $ \[
+						(x+y)^3 = \begin{pmatrix} 3 \\ 0 \end{pmatrix} x^3 + \begin{pmatrix} 3 \\ 1 \end{pmatrix} x^2y + \begin{pmatrix} 3 \\ 2 \end{pmatrix} xy^2 + \begin{pmatrix} 3 \\ 3 \end{pmatrix} y^3
+					.\] 
+
+					The general form being: \[
+						\fbox{$(x+y)^{2}= \begin{pmatrix} n \\ 0 \end{pmatrix}x^{n} + \begin{pmatrix} n \\ 1 \end{pmatrix} x^{n-1}y + \ldots + \begin{pmatrix} n \\ n \end{pmatrix} y^{n} = \sum_{k=0}^{n} \begin{pmatrix} n \\ k \end{pmatrix} x^{n - k} y^{k}$} 
+					.\] 
+						
+				\end{itemize}
+
+		\subsection{Power Set}%
+		
+			\begin{exmp}
+				How many subsets are there of the set $\{1,2,\ldots,n\} $ \\
+				\begin{itemize}
+					\item For each $0 \le k \le n$, there are $\begin{pmatrix} n \\ k \end{pmatrix} $ different subsets of size k. Then \[
+					\sum_{k=0}^{n} \begin{pmatrix} n \\ k \end{pmatrix} 
+				.\] 
+				\item Use the Binomial Theorem to simplify: \[
+						\sum_{k=0}^{n} \begin{pmatrix} n \\ k \end{pmatrix} = \sum_{k=0}^{n} \begin{pmatrix} n\\k \end{pmatrix} 1^{k}1^{n-k}=(1+1)^{n}=2^{n}
+					.\]  
+				\item For each set, an element either belong to a set or does ( 2 choices for each element, $2^{n} $ choices for all subsets.
+				\end{itemize}
+			\end{exmp}
+			
+			\begin{definition}[Power Set]
+				For a set A, the power set of A is the set of its subsets and is often denoted $2^{A}$
+			\end{definition}
+
+			\section{Multinomial Coefficients}%
+			
+			\begin{exmp}
+				Putting 10 balls into 3 baskets: 5 into red basket, 2 into blue and 3 into yellow. How many combinations? 
+				\begin{solution}
+					$$\begin{pmatrix} 10 \\5	\end{pmatrix} \begin{pmatrix} 5 \\ 2\end{pmatrix} \begin{pmatrix} 3 \\ 3\end{pmatrix} = \frac{10!}{5!(10-5)!} * \frac{5!}{3!(5-3)!} = \frac{10!}{5!3!2!}$$
+				\end{solution}
+			\end{exmp}
+
+			\begin{definition}[Multinomial Coefficents]
+				A set of n distinct items is to be divided into r distinct groups of respective sizes $n_1,\ldots, n_r$	where $n_1 + n_2 + \ldots + n_r = n$.\\
+				Number of possible divisions is \[
+				\begin{pmatrix} n \\ n_1,n_2,\ldots, n_r \end{pmatrix} := \frac{n!}{n_1 ! n_2 ! \ldots n_r !} 
+				.\] 
+
+				\begin{itemize}
+					\item Multinomial Coefficient decomposes as \[
+							\begin{pmatrix} n \\ n_1, n_2, \ldots, n_r\end{pmatrix} = \begin{pmatrix} n \\ n_1\end{pmatrix} \begin{pmatrix} n - n_1 \\ n_2\end{pmatrix} \ldots \begin{pmatrix} n_r \\ n_r \end{pmatrix}
+					.\] 
+
+					\item When r =2, we just get the binomial coefficient, the choose function.
+				\end{itemize}
+			\end{definition}
+
+			\begin{theorem}[Multinomial Theorem]
+				We can define:
+				$$(a_1 + a_2 + \ldots + a _r )^{n} = \sum_{n_1 + \ldots + n_r = n} \begin{pmatrix} n \\ n_1, n_2, \ldots, n_r \end{pmatrix} {a_1}^{n_1}{a_2}^{n_2}\ldots{a_r}^{n_r}$$
+			\end{theorem}
+
+		\section{Set Theory}%
+		
+			\begin{definition}[Subsets]
+				Let $\Omega$ be a set, that is a collection of elements or points.
+				\begin{itemize}
+					\item A is a subset of $\Omega$, denoted $A \subset \Omega$, if it is a set composed of elements of $\Omega$
+					\item Given an element $\omega$ of $\Omega$ and a subset A of $\Omega$, either
+						\begin{itemize}
+							\item $\omega$ belongs to A, denoted $\omega \in A$ 
+							\item $\omega$ does not belong to A, denoted $\omega \not\in A$.	
+
+						\end{itemize}	
+				\end{itemize}
+			\end{definition}
+
+			\begin{exmp}
+				Let $\Omega = \{1,2,3,4,5,6\} $, examples of subsets are: \[
+				A = \{2,4,6\}, B= \{1,2,3,4\} 
+				.\] 
+
+				There are alternative ways to specify a set, namely we can equivalently write: \[
+					A = \{\omega \in \Omega, \omega \text{ is even } \}, B = \{\omega \in \Omega : 1 \le \omega \le 4\}  
+				.\] 
+			\end{exmp}
+
+			\textbf{Notes:} 
+			\begin{itemize}
+				\item Subsets of the form ${\omega}$ are called singletons
+				\item Note that $\omega \in {w}$ but $\omega$ is not the same as ${\omega}$
+			\end{itemize}
+
+			\begin{definition}[Intersections and Union's]
+				For A, B two subsets of $\Omega$, either:
+				\begin{itemize}
+					\item $A \subset B:$ A is a subset of B: $\forall \omega \in A, \omega \in B$
+					\item $A \not\subset B:$ A is not a subset of B: $\exists \omega A, \omega \not\in B$
+				\end{itemize}
+
+				Moreover, if $A \subset B$ and $B \subset A$, then $A = B$ 
+
+				\begin{itemize}
+					\item $\Omega$ is a subset of $\Omega$ 
+					\item the empty set is denoted \O is a subset of $\Omega$
+						\item for any subset A of $\Omega$ \O, $\in A \in \Omega$
+				\end{itemize}
+			\end{definition}
+
+			\subsection{Set operations}%
+			
+				\begin{definition}
+					Let A, B be two subsets of a set $\Omega$.
+					\begin{enumerate}
+						\item Intersection, $A \cap B = \{\omega \in \Omega : \omega \in A \text{ and } \omega \in B \} $
+						\item Union, $A \cup B = \{\omega \in \Omega: \omega \in A \text{ or } \omega \in B\}$ 
+						\item Complement of A, $A^{c} = \{\omega \in \Omega: \omega \not\in A\}$
+						\item Set difference A \ B := $\{\omega \in \Omega: \omega \in A \text{ and } \omega \not\in B \} $
+					\end{enumerate}
+				\end{definition}
+
+				\textbf{Note:} 
+				\begin{itemize}
+					\item $A^{c} = \Omega / A$
+						\item A / B = $A \cap B^{c}$
+				\end{itemize}
+
+				\begin{definition}[Disjoint Sets]
+					Two sets A, B are disjoint if $A \cap B =$ \O.
+				\end{definition}
+
+				\begin{definition}[Cardinality]
+					The cardinality of a finite set A is the number of elements in the set and is denoted $| A |$
+				\end{definition}
+			\subsection{Some Rules}%
+				\begin{enumerate}
+					\item Commutative laws: \[
+					A \cup B = B \cup A, A \cap B = B \cap A
+					.\] 
+
+					\item Associative Laws: \[
+							(A \cup B) \cup C = A \cup (B \cup C)
+					.\] 
+
+					\item Distributive Laws: \[
+							(A \cup B) \cap C = (A \cap C) \cup (B \cap C)
+					.\] 
+				\end{enumerate}
+
+				\begin{lemma}[Demorgan's Laws]
+					For two subsets A, B of a set $\Omega$, \[
+						(A \cup B)^{c} = A^{c} \cap B^{c}
+					.\] 
+				\end{lemma}
+
+				\newtheorem{proof}{Proof}
+				\begin{proof}
+					The general outline of the proof is: 
+					\begin{enumerate}
+						\item Left $\subset$ Right: For any $x \in (A \cup B)^{c}$, then $x \in A^{c} \cap B^{c}$
+						\item Right $\subset$ Left: For any $x \in A^{c} \cap B^{c}$, then $x \in (A \cup B)^{c}$   
+					\end{enumerate}
+				\end{proof}
+
+				\textbf{Notes:} 
+				\begin{itemize}
+					\item The set $\Omega$ can be infinite 
+					\item We distinguish countable sets (s.t that these sets can be mapped to a subset of N with every mapping different than the others), often called discrete sets.
+					\item and uncountable sets, for example R, are often called continuous sets (such sets cannot be mapped to N with a mapping that is distinct for all elements)
+				\end{itemize}
+
+				\begin{definition}
+					Given a sequence of subsets $A_i$ of $\Omega$ we define: \[
+						\bigcup_{i=1}^{+\infty} A_i = \{\omega \in \Omega: \omega \in A_i \text{ for at least one index } i \in \{1,2,\ldots\} \} 
+					.\] 
+					\[
+					\bigcap_{i=1}^{+\infty} A_i = \{\omega \in \Omega: \omega \in A_i \text{ for all indexes } i \in \{1,2,\ldots\} 
+					.\] 
+				\end{definition}
+	\end{document}
