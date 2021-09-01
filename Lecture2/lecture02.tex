@@ -1,0 +1,398 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[dutch]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{ntheorem}
+\usepackage{titlesec}
+
+% figure support
+\usepackage{import}
+\usepackage{xifthen}
+\pdfminorversion=7
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+	\def\svgwidth{\columnwidth}
+	\import{./figures/}{#1.pdf_tex}
+}
+
+%----------Theorems----------%
+
+\newcounter{counter}
+\numberwithin{counter}{subsection}
+
+\theoremstyle{break}
+\theoremindent20pt 
+\theorembodyfont{\normalfont}
+\theoremheaderfont{\normalfont\bfseries\hspace{-\theoremindent}}
+\newtheorem{definition}{Definition}
+\newtheorem{exmp}[counter]{Example}
+\newtheorem{lemma}[counter]{Lemma}
+\newtheorem*{solution}{Solution}
+\newtheorem{exe}[counter]{Exercise}
+\newtheorem{theorem}[counter]{Theorem}
+%------Miscellaneous---------%
+
+\titleformat{\section}[block]{\Large\bfseries\filcenter\underline}{}{1em}{}
+\newcommand{\sectionbreak}{\clearpage}
+
+\pdfsuppresswarningpagegroup=1
+
+\begin{document}
+
+\section{Review}%
+\label{sec:review}
+
+\begin{exmp}
+	Suppose we want to make a 3-digit number using the digits in $\Omega = \{1,2,3,4\}$. \\
+	To form this number we will make an arrangement using elements from $\Omega$. \\
+	We might make the number 231, a particular arrangement of the subset $A = \{1,2,3\} \subset \Omega$. A different permeation of A generates a new number, and a different arrangement. 
+\end{exmp}
+
+\newtheorem{sol}{Solution}
+\begin{exmp}
+	Given a classical deck of 52 cards, how many poker hands (set of 5 cards) are in the category three of a kind? (that is, no better than three of a kind)
+
+	\begin{sol}
+		Two possible ways:
+		\begin{enumerate}
+			\item build an unordered hand.
+			\item build an ordered hand and divide by 5! to remove the over counting
+		\end{enumerate}
+
+		\textbf{First Way:} 
+		\begin{enumerate}
+			\item Consider $\Omega = \{x_1, x_2, x_3, x_4, x_5\}$ with $x_i$ a card from the deck
+			\item Consider building all possible hands with 3 of a kind, denote this subset A
+			\item to build A
+				\begin{enumerate}
+					\item Choose the rank of three of a kind (13 choices).
+					\item Pick 3 cards out of the possible 4 suits of this rank, $\begin{pmatrix} 4 \\ 3 \end{pmatrix}$ choices.
+					\item Choose 2 other ranks for the two reaming cards $\begin{pmatrix} 12 \\ 2 \end{pmatrix}$.
+					\item Choose one of the suit for both of these cards (4 choices for each so $4^2$ for both).
+				\end{enumerate}
+			\item in total $\#A = 13 * \begin{pmatrix} 4 \\ 3 \end{pmatrix}* \begin{pmatrix} 12 \\ 2 \end{pmatrix} * 4^2 = 54912$
+		\end{enumerate}
+
+		\textbf{Second way:} 
+		\begin{enumerate}
+			\item Consider $\Omega = \{x_1, x_2, x_3, x_4, x_5\}$ with $x_i$ a card from the deck, all different.
+			\item Consider building all possible ordered hands with 3 of a kind denote this subset $A$ 
+			\item to build A:
+			\begin{enumerate}
+				\item First choose three slots for the three of a kind $\begin{pmatrix} 5 \\ 3 \end{pmatrix}$ for this choice
+				\item Assign 1 card to one of these slots (52 choices)		
+				\item Assign a second card to one of these slots with the same rank (3 choices)
+				\item Assign a third card to the last slot with the same rank (2 choices)
+				\item Assign one card different than the other three (48 choices)  
+				\item Assign one card different to all other choices (44 choices)
+			\end{enumerate}
+
+			\item In total $\#A = \begin{pmatrix} 5 \\ 3 \end{pmatrix} * 52 * 3 * 2 * 48 * 44$
+			\item divide by 5! to only consider the possible sets, i.e the solution is 54912.
+		\end{enumerate}
+	\end{sol}
+\end{exmp}
+
+\section{Sample space and events}%
+\label{sec:sample_space_and_events}
+
+\begin{definition}
+	A sample space $\Omega$	is the set of all possible outcomes of an experiment.
+\end{definition}
+
+\begin{exmp}
+	(i) 3 coin tosses, One die roll, (iii) Sum of two	rolls, seconds waiting for bus, number of attempts to win a lottery.  
+	\begin{enumerate}
+		\item $S = \{HHH, HHT, HTH, HTT, T H H, THT, TTH, TTT\} $
+			\item $S = \{1,2,3,4,5,6\} $
+	\end{enumerate}
+\end{exmp}
+
+\begin{exe}
+    \textbf{Q:} Is playing five rounds of Russian roulette is this the same as coin flipping.\\
+    \textbf{A:} No it is not the same because $\Omega = \{D, LD, LLD, LLLD, LLLLD, LLLLLL\}$\\
+    \textbf{Q:} Sequencing three nucleotides (each yuletide is A, C, g or T).\\
+	$\Omega = \{AAA, CCC, GGG, TTT, AAC AAT, AAG, \ldots \}$. What is the cardinally of the space?\\
+	\textbf{A:} $\#\Omega = |\Omega|= 4^3 = 64$
+\end{exe}
+
+\begin{definition}[Event]
+	An event E is any subset of the sample space $\Omega$.
+\end{definition}
+
+\begin{exmp}
+    2 heads out of three flips ($E = \{HHT, HTH, THH\}$), time is < 2 minutes when waiting for the bus, $E = [0,12)$.
+\end{exmp}
+
+\subsection{Collection of events}%
+\label{sub:collection_of_events}
+
+In the following, we consider possibilities associated ta a collection of events denoted $\mathcal{F}$.
+\begin{itemize}
+	\item If $\Omega$ is discrete (i.e countable) we will simply consider. \[
+	\mathcal{F} = 2^{\Omega}
+	.\] 
+	the power set (the set of all subsets of $\Omega$) 
+\item If $\Omega$ is continuous (i.e. Uncountable) like $\mathbb{R}$, the power set of $\Omega$ is too complex.
+	We restrict ourselves to events that are intersections or unions of intervals $[a, +\infty)$
+	\item Formally the collection of events of interest must be $\sigma$-algebra
+\end{itemize}
+
+\newtheorem{note}{Note}
+\begin{note}
+	In all cases: \O $\in \mathcal{F}, \: \Omega \in \mathcal{F}$
+\end{note}
+
+\newpage
+\subsection{Set operations}%
+\label{sub:set_operations}
+
+Let $A, B$ be two events.
+\begin{definition}
+	\begin{enumerate}
+		\item Intersection: A $\cap$ B: both A and B occur
+		\item Union: A $\cup $ B: at least one of A or B occur
+		\item The complement of A, $A^{C}$ : A does not occur
+		\item A $\subset $ B: occurrence of A impels occurrence of B.
+		\item Set difference A \ B := $A \cap (B^{c)}:$ A occurs, B does not.
+	\end{enumerate}
+\end{definition}
+
+\begin{definition}[Disjoint Sets]
+	Two events A and B are mutually exclusive or disjoint if they have no outcomes in common, i.e. $A\cap B = $ \O.
+\end{definition}
+
+\begin{exmp}
+	Singletons( one outcome )  of distinct elements are always disjoint. So for a die, rolling a 6 (A = {6}) and rolling a 4 (B = {4}) are mutually disjoint set events. 
+\end{exmp}
+
+\begin{exe}
+	Let A be the event that a person is male, B that person is under 30, and C that the person speaks French. Describe in symbols (feel free to use a Venn diagram to help):
+	\begin{itemize}
+		\item A male at least 30 year old
+			\item A female under 30 who speaks French
+				\item A male who is either under 30 or who speaks french 
+	\end{itemize}
+
+	\begin{sol}
+		\begin{itemize}
+			\item $A \cap B^{c}$
+			\item $A^{c} \cap B \cap C$
+			\item $(A \cap B) \cup (A \cap C)$
+		\end{itemize}	
+	\end{sol}
+\end{exe}
+
+\begin{exe}
+	You roll 2 dice, what is the cardinality of the event:\\
+	E = "the sum larger than or equal to 10"? By cardinality it means the number of possible outcomes that result in this event.
+	\begin{sol}
+		The event is defined as: \[
+			A = \{(4,6), (5,5)(5,6), (6,6),(6,5),(6,4)\} 
+		.\] 
+		So the cardinality is equal to 6
+	\end{sol}
+\end{exe}
+
+\section{Axioms of Probability}% 
+\label{sec:axioms_of_probability}
+
+\begin{definition}[informal]
+	Given an experiment, a sample space $\Omega$, and all possible events $\mathcal{F}$\footnote{If $\Omega$ is discrete, $\mathcal{F}= 2^{\Omega}$, otherwise see next lecture for rigors definition} to define a probability measure is to associate each event $A \in \mathcal{F}$ with a number $\mathcal{P(A)}$ between 0 and 1, called the probability of the event.\\ 
+\end{definition}
+
+There is no agreement in how probabilities should be interpreted.
+\begin{itemize}
+	\item \textbf{Frequentest} interpretation: The probability of an event A is the proportion of times (frequency) that A occurs in an infinite sequence  (or very long run) of separate tries of the experiment. \[
+		\mathcal{P}(A) = \lim_{n \to \infty} \frac{\text{\# times it happens}}{n}
+	.\]  
+
+\item \textbf{Bayesian} interpretation: The probability of event A reflects a (usually subjective) belief on the likelihood of A.
+\end{itemize}
+
+\begin{definition}[Probablity Measure]
+	Let $\Omega$ be the sample space, and $\mathcal{F}$ be the set of all possible events. The probability measure (also called probability distribution or simply probability ) is a function from $\mathcal{F}$ into the real numbers such that:
+
+	\begin{enumerate}
+		\item $0 \le \mathcal{P}(A) \le 1$ for any event A
+		\item $\mathcal{P}(\Omega) = 1$ 
+		\item For $A_1, A_2, \ldots$ any sequence of pairwise disjoint events\\ $(A_i \cap A_j = $ \O for $i \neq j)$, \[
+				\mathcal{P}(\bigcup_{i = 1}^{\infty} A_i) = \sum_{i=1}^{\infty} \mathcal{P}(A_i)
+		.\] 
+	\end{enumerate}
+
+The triplet ($\Omega$, $\mathcal{F}$, $\mathcal{P}$) is called \textbf{probability space}.
+\end{definition}
+
+\subsection{Immediate consequences}%
+\label{sub:immediate_consequences}
+
+\begin{itemize}
+	\item Finite additivity: For disjoint $A_1,A_2,\ldots,A_m \in \mathcal{F}$, \[
+			\mathcal{P}(\bigcap_{i=1}^{m} A_i) = \mathcal{P}(A_1) + \ldots + \mathcal{P}(A_m)
+	.\] 
+
+\item For a finite set $\Omega = \{\omega_1,\ldots, \omega_N\}$, \[
+		1 = \mathcal{P}(\Omega) = \mathcal{P}({\omega_1}) + \ldots + \mathcal{P}({\omega_N})
+.\] 
+
+i.e the probabilities of the singletons must sum up to one
+\end{itemize}
+
+\begin{definition}[Equally Likely Probablites]
+	Suppose $\Omega$ is finite and consist of N elements: \[
+	\Omega = \{\omega_1, \omega_2, \ldots, \omega_N\} 
+	.\] 
+	A probability $\mathcal{P}$ is called equally likely if $\mathcal{P}(\omega_1) = \ldots = \mathcal{P}(\omega_N) = \frac{1}{N}$.\\
+	Clearly, $\mathcal{P}$(\O) = 0 and $\mathcal{P}(\Omega) = 1 $ and for any event $E \in \mathcal{F}$, \[
+		\mathcal{P}(E) = \frac{\#E}{N}
+	.\] 
+\end{definition}
+
+\begin{exmp}
+	Toss a fair coin twice. $\Omega = \{H H, T T, H T, T H\} $.\\
+	For $A = \{H T, T T\}, \: \mathcal{P}(A) = \frac{2}{4} = \frac{1}{2}$
+\end{exmp}
+
+\begin{exmp}
+	An unfair die would be a die such that probabilities of each outcome is modified.  
+\end{exmp}
+
+\begin{exe}
+	\begin{enumerate}
+		\item Consider a fair die, such that the probability of rolling each face is equally probable. What is the probability of having an even number?
+		\item Consider two fair dice. What is the probability that the sum of the rolled faces is 8?
+	\end{enumerate}
+\end{exe}
+
+\begin{sol}
+    \begin{enumerate}
+        \item \begin{itemize}
+            \item The probability of having an even number out of the die would be the set $A = \{2,4,5\} $ and the prob. is $\mathcal{P}(A) = \frac{1}{2}$  
+        \end{itemize}
+    \item \begin{itemize}
+        \item The sample space is $\Omega = \{(i,j) : i, j \in {1, \ldots, 6}\} $
+        \item Here we have tuples (ordered pairs). The dice are fair so outcomes in $\Omega$ are equally probable, i.e., $\mathcal{P}({(i,j)}) = \frac{1}{36}$.
+        \item The even of interest is: \[
+                D = {\text{the sum of two dice is 9}} = \{((2,6), (3,5), (4,4), (5,3), (6,2)\} 
+            .\] 
+        \item There for $\mathcal{P}(D) = \frac{5}{36}.$ We have order pairs here we could roll a 2 and then 6. Or a 6 or a 2
+    \end{itemize}
+    \end{enumerate}
+\end{sol}
+
+\begin{exe}
+    \begin{enumerate}
+		\item Consider flipping a fair coin three times. What is the prob. to have at least two heads in a row?
+		\item You roll 2 fair dice, what is the probability to have a sum larger or equal than 10
+    \end{enumerate}
+\end{exe}
+\begin{sol}
+
+    \begin{enumerate}
+        \item \begin{itemize}
+            \item Rather than using {H,T} we will use (0,1). The sample space here is: \[
+                    \Omega = \{(i,j, k: i,j,k \in \{0,1\} \} 
+            .\] 
+        \item The coin is fair so all outcomes $\Omega$	are equal i.e., $\mathcal{P}({i,j,k}) = \frac{1}{2^3}$. The even of interest is:
+        \item D = {at least two heads in a row} = $\{\{0,0,1\},\{1,0,0\}, \{0,0,0\} \}$
+        \item Therefore $\mathcal{P}(D) = \frac{3}{8}$
+        \end{itemize}
+            
+    \item \begin{itemize}
+        \item The event is: \[
+        A = \{\{4,6\}, \{5,5\}, \{5,6\}, \{6,6\}, \{6,5\}, \{6,4\} \} 
+        .\] 
+
+        All events are equal, which means there are $6^2$ possible events. \\
+        So the Prob(A) is $\frac{6}{36} = \frac{1}{6}$
+        \end{itemize}
+    \end{enumerate}
+\end{sol}
+
+	\section{Sampling from an urn}%
+	
+	\subsection{Ordered sampling with replacement}%
+	
+	\begin{definition}
+		Consider an urn with $N \ge 2$ balls lobed as $\{1,2,\ldots,n\} $. Pick one ball without looking, note its label, and put it back. Repeat this k times. The outcome is a k-tuple $\{a_1,a_2,..,a_k\} $ \[
+            \Omega = {\text{all k-tuples of } \{1,\ldots,N\}}, \#\Omega = N^{k}
+		.\] 
+	\end{definition}
+	
+	\begin{exmp}
+	Suppose our urn contains 5 balls labeled 1,2,3,4,5. Sample 3 balls with replacement and produce an ordered list of the numbers drawn. 
+	The sample space is: \[
+        \Omega = \{1,2,3,4,5\}^{3}= \{\{s_1,s_2,s_3\}: \text{each } s_i \in \{1,2,3,4,5\} \}, \: \Omega = 5^3=125
+	.\]  
+	We have for example \[
+        \mathcal{P}(\text{the sample is } (2,1,5)) = \mathcal{P}(\text{the sample is } (2,2,3)) = \frac{1}{125}
+	.\] 
+	\end{exmp}
+
+	\begin{exmp}
+		Repeated flips of a coin or roll of a die are also sampling with replacements from the set {H,T} or {1,2,3,4,5,6}
+	\end{exmp}
+
+\subsection{Ordered sampling without replacement}%
+
+Pick one ball without looking, note its label, but dont put it back. Repeat this k times. The outcome is a k-tuple without repeats, i.e., \[
+    \Omega = {\text{all k-arrangments of 1},\ldots,N}
+.\]   
+
+\begin{exmp}
+	Consider again the urn with 5 balls labled 1,2,3,4,5. Sample 3 balls without replacement. \[
+        \Omega = \{\{s_1,s_2,s_3\} : \text{each } s_i \in \{1,2,3,4,5\} \text{ and } s_1,s_2,s_3, \text{are all distinct}\} 
+	.\]  
+
+	We have 5 choices for the first, 4 for the second, 3 choices for the third so $\#\Omega = 5 * 4 * 3 = (5)_3 $ and \[
+        \mathcal{P}(\text{the sample is } (2,1,5)) = \frac{1}{5 * 4 * 3} = \frac{1}{60}	
+	.\] 
+\end{exmp}
+
+\subsection{Unordered sampling without replacement}%
+
+\begin{definition}
+	Unordered sampling without replacement Pick one ball without looking, note its label but don't put it back. Repeat this k times. This time the order of the balls does not matter.\\
+	Namely, consider the outcome to be a k-subset \[
+        \Omega = \{\text{all k-subset of 1}, \ldots, N\}, \: \#\Omega = \begin{pmatrix} N \\ k \end{pmatrix}
+	.\] 
+
+\end{definition}
+
+\begin{exe}
+	Class of 24 Children. All picking is done uniformly at random.
+	\begin{enumerate}
+		\item Each day one child leads the class to lunch. What is the prob. That Alex is chosen on Monday and Wed. And Julie is picked on Tuesday.
+		\item One student chosen to be president, one vice, one treasurer. They cannot hold more than one postion. Prob that Mary is pres, Cory is vice, and Matt treasurer.
+		\item Same but now what is the prob that Ben is either president or vice.
+		\item A team of 3 students is chosen at random. What is the prob that the team consist in Shane, heather, and Laura?
+		\item A team of 3 is chosen. What is the prob that Mary is on the team?
+	\end{enumerate}
+
+	\begin{sol}
+		\begin{enumerate}
+			\item \begin{itemize}
+                \item $\mathcal{P}(\text{Alex, Julie, Alex}) = 24^{-3} = \frac{1}{24^3}$
+			\end{itemize}
+		\item \begin{itemize}
+            \item $\mathcal{P}(\text{Marry pres, Cory vice, Mat treas}) = \frac{1}{24 * 23 * 22}$
+		\end{itemize}
+	\item \begin{itemize}
+        \item $\mathcal{P}(\text{Ben pres}) = \frac{1*23*22}{24*23*22} = \mathcal{P}(\text{Ben vice pres})$
+        \item $\mathcal{P}(\text{Ben Pres}) \cup \mathcal{P}(\text{Ben vice}) = \mathcal{P}(pres) + \mathcal{P}(vp)$ 
+	\end{itemize}
+		\item \begin{itemize}
+			\item $\mathcal{P}(\text{Shane, Heather, Laura}) = \frac{1}{\begin{pmatrix} 24 \\ 3 \end{pmatrix}} = \frac{1}{\frac{24!}{3!(21)!}}= \frac{1}{2024}$
+		\end{itemize}
+		\item \begin{itemize}
+            \item $\begin{pmatrix} 23 \\ 2 \end{pmatrix}$ teams include Mary so $\mathcal{P}(\text{Mary is in the team}) = \frac{\begin{pmatrix} 23 \\ 2 \end{pmatrix}}{\begin{pmatrix} 24 \\ 3 \end{pmatrix}} $
+		\end{itemize}
+	\end{enumerate}
+	\end{sol}
+\end{exe}
+\end{document}
